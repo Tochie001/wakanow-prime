@@ -1,6 +1,7 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { AuthService } from '../../services/auth';
 
 type TierKey = 'individual' | 'duo' | 'family';
 
@@ -85,7 +86,7 @@ const blank = (): Traveller => ({
         <div class="join-success-meta">
           <div>
             <span class="lbl">Membership</span>
-            <span class="val">Wakanow Prime — {{ tier().name }}</span>
+            <span class="val">WakaPrime — {{ tier().name }}</span>
           </div>
           <div>
             <span class="lbl">Charged today</span>
@@ -105,7 +106,7 @@ const blank = (): Traveller => ({
 
         <div class="join-success-cta">
           <a routerLink="/" class="join-btn join-btn-primary">Back to Wakanow</a>
-          <a href="#" class="join-btn join-btn-outline">Open dashboard</a>
+          <a routerLink="/login" class="join-btn join-btn-outline">Open dashboard</a>
         </div>
       </div>
     </section>
@@ -117,7 +118,7 @@ const blank = (): Traveller => ({
         <form class="join-form" (submit)="onSubmit($event)" novalidate>
 
           <header class="join-form-head">
-            <h1>Join Wakanow Prime <em>· {{ tier().name }}</em></h1>
+            <h1>Join WakaPrime <em>· {{ tier().name }}</em></h1>
             <p>{{ tier().position }} Fill in member details below, then choose how you'd like to pay.</p>
           </header>
 
@@ -204,30 +205,8 @@ const blank = (): Traveller => ({
                     </svg>
                   </span>
                   <span class="join-pay-text">
-                    <strong>Pay online</strong>
+                    <strong>Pay with Card or Bank</strong>
                     <span>Card, bank app or wallet</span>
-                  </span>
-                </label>
-
-                <label class="join-pay-option" [class.is-selected]="payMethod() === 'transfer'">
-                  <input type="radio" name="payMethod" value="transfer"
-                         [checked]="payMethod() === 'transfer'"
-                         (change)="payMethod.set('transfer')" />
-                  <span class="join-pay-radio" aria-hidden="true"><span class="dot"></span></span>
-                  <span class="join-pay-icon" aria-hidden="true">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                      <path d="M3 21h18"/>
-                      <path d="M3 10h18"/>
-                      <path d="m12 3 9 7H3l9-7Z"/>
-                      <path d="M5 21V10"/>
-                      <path d="M9 21V10"/>
-                      <path d="M15 21V10"/>
-                      <path d="M19 21V10"/>
-                    </svg>
-                  </span>
-                  <span class="join-pay-text">
-                    <strong>Bank transfer</strong>
-                    <span>Use Prime ID as narration</span>
                   </span>
                 </label>
               </div>
@@ -258,7 +237,7 @@ const blank = (): Traveller => ({
           <div class="join-summary-inner">
             <header>
               <span class="join-eyebrow">Order summary</span>
-              <h3>Wakanow Prime <em>{{ tier().name }}</em></h3>
+              <h3>WakaPrime <em>{{ tier().name }}</em></h3>
               <p>{{ tier().travellers }} registered traveller{{ tier().travellers === 1 ? '' : 's' }} · annual membership</p>
             </header>
 
@@ -298,10 +277,11 @@ const blank = (): Traveller => ({
 export class JoinPage {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
+  private auth = inject(AuthService);
 
   tier = signal<TierInfo>(TIERS.individual);
   travellers = signal<Traveller[]>([blank()]);
-  payMethod = signal<'online' | 'transfer'>('online');
+  payMethod = signal<'online'>('online');
   status = signal<'idle' | 'processing' | 'success'>('idle');
   errorMessage = signal<string>('');
   agreed = false;
@@ -311,12 +291,25 @@ export class JoinPage {
       const raw = (p.get('tier') || '').toLowerCase() as TierKey;
       const info = TIERS[raw] ?? TIERS.individual;
       this.tier.set(info);
-      this.travellers.set(Array.from({ length: info.travellers }, () => blank()));
+      const list = Array.from({ length: info.travellers }, () => blank());
+
+      // Prefill the primary traveller from the logged-in account.
+      const user = this.auth.user();
+      if (user) {
+        list[0] = {
+          firstName: user.firstName,
+          lastName: user.lastName,
+          email: user.email,
+          phone: user.phone,
+          fillLater: false,
+        };
+      }
+      this.travellers.set(list);
     });
   }
 
   travellerLabel(i: number) {
-    if (i === 0) return 'Primary member';
+    if (i === 0) return this.auth.isLoggedIn() ? 'Primary member · You' : 'Primary member';
     if (this.tier().key === 'duo') return 'Covered traveller';
     return `Covered traveller · ${i + 1}`;
   }

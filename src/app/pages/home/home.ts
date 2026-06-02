@@ -1,12 +1,13 @@
-import { AfterViewInit, Component, ElementRef, ViewChild, computed, signal } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnDestroy, ViewChild, computed, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Tiers } from '../../components/tiers/tiers';
+import { PrimeMark } from '../../components/prime-mark/prime-mark';
 
 type TierId = 'ind' | 'duo' | 'fam';
 
 @Component({
   selector: 'app-home',
-  imports: [FormsModule, Tiers],
+  imports: [FormsModule, Tiers, PrimeMark],
   template: `
 <div class="page-v2">
 
@@ -17,17 +18,17 @@ type TierId = 'ind' | 'duo' | 'fam';
     <div class="v2-container">
       <div class="v2-hero-grid">
         <div class="v2-hero-text">
-          <span class="v2-pill">Wakanow Prime</span>
+          <span class="v2-pill">WakaPrime</span>
           <h1 class="v2-display">
-            Unlock <em>member–only</em><br/>
-            travel savings<br/>
+            Access <em>member–only</em><br/>
+            travel discounts<br/>
             in one checkout.
           </h1>
           <p class="v2-lede">
             Prime brings lower eligible fares, priority support and registered traveller perks into one annual membership for frequent Wakanow customers.
           </p>
           <div class="v2-cta">
-            <a class="v2-btn-orange" routerLink="." fragment="tiers">Join Prime</a>
+            <a class="v2-btn-orange" href="#tiers" (click)="scrollToId('tiers', $event)">Join Prime</a>
           </div>
         </div>
 
@@ -48,16 +49,10 @@ type TierId = 'ind' | 'duo' | 'fam';
               <div class="fare-price">₦1,340,936</div>
               <div class="fare-sub">Pay once · total fare</div>
             </div>
-            <div class="fare fare-pss">
-              <div class="fare-label"><span class="pss-logo">PAY<br/>SMALL<br/>SMALL</span></div>
-              <div class="fare-price fare-orange">₦289,369</div>
-              <div class="fare-sub">Down payment · balance by instalments</div>
-            </div>
             <div class="fare fare-prime is-active">
-              <span class="fare-badge">Save 20%</span>
-              <div class="fare-label">PRIME FARE <span class="dot"></span></div>
-              <div class="fare-price fare-blue">₦1,072,558</div>
-              <div class="fare-sub">Members only · save ₦268,378</div>
+              <div class="fare-label"><span class="fare-prime-pill"><app-prime-mark class="fare-prime-star" /> PRIME</span></div>
+              <div class="fare-price">₦900,000</div>
+              <div class="fare-sub">Members only · save ₦440,936</div>
             </div>
           </div>
 
@@ -96,57 +91,82 @@ type TierId = 'ind' | 'duo' | 'fam';
   <app-tiers />
 
   <!-- ============================================================
-       PERKS — Benefits showcase with pictures
+       PERKS — Elite service experience (editorial portrait cards)
        ============================================================ -->
   <section class="v2-perks">
     <div class="v2-container">
-      <header class="v2-section-head v2-section-head-row">
-        <div class="v2-section-head-text">
-          <div class="v2-eyebrow"><span class="dash"></span>More than savings</div>
-          <h2 class="v2-h2">Built for the <em>way you travel.</em></h2>
+      <header class="v2-perks-header">
+        <div class="v2-perks-text">
+          <h2 class="v2-h2">Discover our <em>elite service</em> experience</h2>
+          <p>Every WakaPrime member enjoys comprehensive travel assistance from start to finish. Explore our remarkable offerings.</p>
         </div>
-        <div class="v2-perks-nav">
+        <div class="v2-perks-nav" (mouseenter)="pauseAutoScroll()" (mouseleave)="resumeAutoScroll()">
           <button type="button" class="v2-perks-arr" (click)="scrollPerks(-1)" [disabled]="atStart()" aria-label="Previous">‹</button>
           <button type="button" class="v2-perks-arr" (click)="scrollPerks(1)" [disabled]="atEnd()" aria-label="Next">›</button>
         </div>
       </header>
 
-      <div class="v2-perks-strip" #perksStrip (scroll)="onPerksScroll()">
-        <article class="v2-perk v2-perk-dark">
-          <div class="v2-perk-image v2-perk-image-card">
-            <img src="/prime-card.png" alt="Wakanow Prime member card" loading="lazy" />
-          </div>
-          <div class="v2-perk-content">
-            <span class="v2-perk-label">01 · The Black Card</span>
-            <h3>Black card <em>access.</em></h3>
+      <div class="v2-perks-strip"
+           #perksStrip
+           (scroll)="onPerksScroll()"
+           (mouseenter)="pauseAutoScroll()"
+           (mouseleave)="resumeAutoScroll()"
+           (touchstart)="pauseAutoScroll()"
+           (touchend)="resumeAutoScroll()">
+
+        <article class="v2-perk v2-perk-card-frame" style="background-image: url('/prime-card.png');">
+          <div class="v2-perk-panel">
+            <h3>Black Card Access</h3>
             <p>A borderless travel card that supports you wherever you are.</p>
           </div>
         </article>
 
-        <article class="v2-perk">
-          <div class="v2-perk-image" style="background-image: url('/brands-people.jpg');"></div>
-          <div class="v2-perk-content">
-            <span class="v2-perk-label">02 · Member prices</span>
-            <h3>Lower fares <em>no one else sees.</em></h3>
-            <p>Negotiated rates with airlines and hotels — applied automatically at checkout.</p>
+        <article class="v2-perk" style="background-image: url('https://images.unsplash.com/photo-1530521954074-e64f6810b32d?w=900&q=80&auto=format&fit=crop');">
+          <div class="v2-perk-panel">
+            <h3>VIP Lounge Services</h3>
+            <p>Enjoy complimentary refreshments, high-speed Wi-Fi, and service that caters to your every need.</p>
           </div>
         </article>
 
-        <article class="v2-perk">
-          <div class="v2-perk-image" style="background-image: url('/premium-support.png');"></div>
-          <div class="v2-perk-content">
-            <span class="v2-perk-label">03 · Premium support</span>
-            <h3>Always <em>on call.</em></h3>
-            <p>Skip the queue. Reach a real travel expert any time of day.</p>
+        <article class="v2-perk" style="background-image: url('/premium-support.png');">
+          <div class="v2-perk-panel">
+            <h3>24/7 Travel Concierge</h3>
+            <p>Comprehensive concierge support from start to finish, making your journey a breeze.</p>
           </div>
         </article>
 
-        <article class="v2-perk">
-          <div class="v2-perk-image" style="background-image: url('/visa-concierge.png');"></div>
-          <div class="v2-perk-content">
-            <span class="v2-perk-label">04 · Visa concierge</span>
-            <h3>Dedicated <em>visa support.</em></h3>
+        <article class="v2-perk" style="background-image: url('https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=900&q=80&auto=format&fit=crop');">
+          <div class="v2-perk-panel">
+            <h3>Seamless Flight Booking</h3>
+            <p>Experience the future of travel — every journey tailored to your desires and dreams.</p>
+          </div>
+        </article>
+
+        <article class="v2-perk" style="background-image: url('https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?w=900&q=80&auto=format&fit=crop');">
+          <div class="v2-perk-panel">
+            <h3>Prompt Hotel Reservations</h3>
+            <p>Seamless hotel reservations, where every stay is tailored to your needs.</p>
+          </div>
+        </article>
+
+        <article class="v2-perk" style="background-image: url('https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?w=900&q=80&auto=format&fit=crop');">
+          <div class="v2-perk-panel">
+            <h3>Efficient Airport Transfers</h3>
+            <p>On-time arrivals and smooth rides with our trusted ground partners.</p>
+          </div>
+        </article>
+
+        <article class="v2-perk" style="background-image: url('/visa-concierge.png');">
+          <div class="v2-perk-panel">
+            <h3>Visa Concierge</h3>
             <p>Schengen, UK, US, Canada — handled by our dedicated visa team.</p>
+          </div>
+        </article>
+
+        <article class="v2-perk" style="background-image: url('/vip.jpg');">
+          <div class="v2-perk-panel">
+            <h3>Lifestyle Experiences</h3>
+            <p>Curated dining, events and lifestyle perks through our exclusive partner network.</p>
           </div>
         </article>
 
@@ -230,7 +250,7 @@ type TierId = 'ind' | 'duo' | 'fam';
         </li>
         <li>
           <span class="num">02</span>
-          <h3>Get member fares</h3>
+          <h3>Get member discounts</h3>
           <p>Prime pricing applies automatically to eligible flights, hotels and packages.</p>
         </li>
         <li>
@@ -315,7 +335,7 @@ type TierId = 'ind' | 'duo' | 'fam';
       <h2 class="v2-final-headline">Pay once. <em>Save all year.</em></h2>
       <p class="v2-final-sub">Three tiers, one promise. Your first trip will already pay you back.</p>
       <div class="v2-cta v2-cta-center">
-        <a class="v2-btn v2-btn-primary v2-btn-lg v2-btn-square" href="#tiers" (click)="scrollToId('tiers', $event)">Join Wakanow Prime <span class="arr">→</span></a>
+        <a class="v2-btn v2-btn-primary v2-btn-lg v2-btn-square" href="#tiers" (click)="scrollToId('tiers', $event)">Join WakaPrime <span class="arr">→</span></a>
       </div>
     </div>
   </section>
@@ -323,7 +343,7 @@ type TierId = 'ind' | 'duo' | 'fam';
 </div>
   `,
 })
-export class Home implements AfterViewInit {
+export class Home implements AfterViewInit, OnDestroy {
   // Calculator visibility toggle — flip to true to bring the section back
   showCalc = false;
 
@@ -332,9 +352,47 @@ export class Home implements AfterViewInit {
   atStart = signal(true);
   atEnd = signal(false);
 
+  // Auto-scroll
+  private autoScrollTimer?: ReturnType<typeof setInterval>;
+  private autoScrollPaused = false;
+  private readonly AUTO_SCROLL_MS = 2000;
+
   ngAfterViewInit() {
-    queueMicrotask(() => this.onPerksScroll());
+    queueMicrotask(() => {
+      this.onPerksScroll();
+      this.startAutoScroll();
+    });
   }
+
+  ngOnDestroy() {
+    this.stopAutoScroll();
+  }
+
+  private startAutoScroll() {
+    if (typeof window === 'undefined') return;
+    if (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) return;
+    this.autoScrollTimer = setInterval(() => {
+      if (this.autoScrollPaused) return;
+      const el = this.perksStrip?.nativeElement;
+      if (!el) return;
+      const atEnd = el.scrollLeft + el.clientWidth >= el.scrollWidth - 1;
+      if (atEnd) {
+        el.scrollTo({ left: 0, behavior: 'smooth' });
+      } else {
+        this.scrollPerks(1);
+      }
+    }, this.AUTO_SCROLL_MS);
+  }
+
+  private stopAutoScroll() {
+    if (this.autoScrollTimer) {
+      clearInterval(this.autoScrollTimer);
+      this.autoScrollTimer = undefined;
+    }
+  }
+
+  pauseAutoScroll() { this.autoScrollPaused = true; }
+  resumeAutoScroll() { this.autoScrollPaused = false; }
 
   scrollToId(id: string, e?: Event) {
     e?.preventDefault();

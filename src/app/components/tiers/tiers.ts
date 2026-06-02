@@ -28,7 +28,7 @@ interface Tier {
           @for (tier of tiers; track tier.id) {
             <article class="tier-card" [class.tier-popular]="tier.popular">
               @if (tier.popular) {
-                <div class="tier-flag">Most Popular</div>
+                <div class="tier-flag">Best Deal</div>
               }
               <header class="tier-head">
                 <h3>{{ tier.name }} @if (tier.subName) {<span class="tier-sub-name">{{ tier.subName }}</span>}</h3>

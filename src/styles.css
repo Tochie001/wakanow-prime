@@ -1,5 +1,5 @@
 /* ------------------------------------------------------------------
-   Wakanow Prime — Global Styles
+   WakaPrime — Global Styles
 ------------------------------------------------------------------- */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=DM+Sans:wght@400;500;600;700&display=swap');
 
@@ -136,6 +136,21 @@ button { font-family: inherit; cursor: pointer; border: 0; background: none; col
   transition: background .15s;
 }
 .signup-btn:hover { background: var(--orange-600); }
+.account-chip {
+  display: inline-flex; align-items: center; gap: 9px;
+  padding: 5px 14px 5px 5px; border-radius: 999px;
+  background: rgba(255,255,255,.10); border: 1px solid rgba(255,255,255,.2);
+  color: #fff; font-weight: 600; font-size: 14px; text-decoration: none;
+  transition: background .15s;
+}
+.account-chip:hover { background: rgba(255,255,255,.18); }
+.account-avatar {
+  width: 30px; height: 30px; border-radius: 50%;
+  background: var(--orange); color: #fff;
+  display: inline-flex; align-items: center; justify-content: center;
+  font-size: 12.5px; font-weight: 700;
+}
+.account-name { white-space: nowrap; }
 .hamburger { display: none; flex-direction: column; gap: 4px; padding: 6px; }
 .hamburger span { width: 22px; height: 2px; background: #fff; border-radius: 2px; }
 
@@ -160,7 +175,7 @@ button { font-family: inherit; cursor: pointer; border: 0; background: none; col
   padding: 12px 20px; border-radius: 12px; font-size: 15px;
 }
 .hc-book:hover { background: var(--orange-600); }
-.hc-fares { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 18px; }
+.hc-fares { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 18px; }
 .fare {
   border-radius: 14px; padding: 12px;
   border: 1.5px solid var(--line); background: #fff;
@@ -182,7 +197,29 @@ button { font-family: inherit; cursor: pointer; border: 0; background: none; col
   font-size: 8px; font-weight: 800; padding: 4px 5px; border-radius: 4px;
   line-height: 1.1; letter-spacing: .04em;
 }
-.fare-prime.is-active { background: #fffbeb; border-color: var(--orange); border-width: 2px; }
+.fare-prime.is-active {
+  background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
+  border-color: var(--orange);
+  border-width: 2px;
+  color: #fff;
+}
+.fare-prime.is-active .fare-price { color: #fff; }
+.fare-prime.is-active .fare-sub { color: rgba(255,255,255,0.78); }
+.fare-prime.is-active .fare-label { color: rgba(255,255,255,0.92); }
+
+.fare-prime-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: #ffd24a;
+  color: #1a1d2e;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .08em;
+  padding: 4px 10px;
+  border-radius: 999px;
+}
+.fare-prime-star { color: #1a1d2e; font-size: 12px; line-height: 1; }
 
 .fare-badge {
   position: absolute;
