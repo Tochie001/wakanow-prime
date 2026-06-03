@@ -86,7 +86,7 @@ const blank = (): Traveller => ({
         <div class="join-success-meta">
           <div>
             <span class="lbl">Membership</span>
-            <span class="val">WakaPrime — {{ tier().name }}</span>
+            <span class="val">WakaPrime · {{ tier().name }}</span>
           </div>
           <div>
             <span class="lbl">Charged today</span>
@@ -128,6 +128,13 @@ const blank = (): Traveller => ({
             <div class="join-step-content">
               <h2>Member information</h2>
               <p class="join-step-desc">{{ tier().travellers }} registered traveller{{ tier().travellers === 1 ? '' : 's' }} are covered by this plan.</p>
+
+              <p class="join-passport-note">
+                <span class="join-passport-icon" aria-hidden="true">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+                </span>
+                <span class="join-passport-text">Enter each traveller's first and last name <strong>exactly as it appears on their passport</strong>. This is the name used for every booking and can't be changed afterwards.</span>
+              </p>
 
               @for (t of travellers(); track $index; let i = $index) {
                 <div class="join-card" [class.is-collapsed]="t.fillLater && i > 0">

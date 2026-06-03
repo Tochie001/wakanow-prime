@@ -80,7 +80,7 @@ interface NavItem {
             <div class="pf-banner-text">
               <span class="pf-banner-eyebrow"><app-prime-mark /> WakaPrime</span>
               <h2>Unlock member-only fares and VIP travel perks</h2>
-              <p>Join Prime to save on every flight, hotel and package — with priority support and a black card experience.</p>
+              <p>Join Prime to save on every flight, hotel and package, with priority support and a black card experience.</p>
             </div>
             <a class="pf-banner-cta" routerLink="/" fragment="tiers">Join Prime →</a>
           </section>
@@ -118,11 +118,26 @@ interface NavItem {
                 <button type="button" class="pf-save">Save changes</button>
               </div>
               <div class="pf-fields">
-                <label class="pf-field"><span>First name</span><input type="text" [value]="u.firstName" /></label>
-                <label class="pf-field"><span>Last name</span><input type="text" [value]="u.lastName" /></label>
-                <label class="pf-field"><span>Email</span><input type="email" [value]="u.email" /></label>
+                <label class="pf-field pf-field-locked">
+                  <span>First name <span class="pf-lock" aria-hidden="true">🔒</span></span>
+                  <input type="text" [value]="u.firstName" readonly />
+                </label>
+                <label class="pf-field pf-field-locked">
+                  <span>Last name <span class="pf-lock" aria-hidden="true">🔒</span></span>
+                  <input type="text" [value]="u.lastName" readonly />
+                </label>
+                <label class="pf-field pf-field-locked">
+                  <span>Email <span class="pf-lock" aria-hidden="true">🔒</span></span>
+                  <input type="email" [value]="u.email" readonly />
+                </label>
                 <label class="pf-field"><span>Phone</span><input type="tel" [value]="u.phone" /></label>
               </div>
+              <p class="pf-note">
+                <span class="pf-note-icon" aria-hidden="true">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                </span>
+                <span class="pf-note-text">Your legal name and email are locked and can only be changed <strong>once a year</strong>. To request a correction, contact Wakanow support.</span>
+              </p>
             </section>
           }
           @default {

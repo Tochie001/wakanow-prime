@@ -138,7 +138,7 @@ type TierId = 'ind' | 'duo' | 'fam';
         <article class="v2-perk" style="background-image: url('https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=900&q=80&auto=format&fit=crop');">
           <div class="v2-perk-panel">
             <h3>Seamless Flight Booking</h3>
-            <p>Experience the future of travel — every journey tailored to your desires and dreams.</p>
+            <p>Experience the future of travel, with every journey tailored to your desires and dreams.</p>
           </div>
         </article>
 
@@ -159,7 +159,7 @@ type TierId = 'ind' | 'duo' | 'fam';
         <article class="v2-perk" style="background-image: url('/visa-concierge.png');">
           <div class="v2-perk-panel">
             <h3>Visa Concierge</h3>
-            <p>Schengen, UK, US, Canada — handled by our dedicated visa team.</p>
+            <p>Schengen, UK, US, Canada, all handled by our dedicated visa team.</p>
           </div>
         </article>
 
@@ -212,14 +212,14 @@ type TierId = 'ind' | 'duo' | 'fam';
           <label class="vcc-field">
             <span>Compare against tier</span>
             <select [(ngModel)]="tier" name="tier">
-              <option value="ind">Individual — ₦350K</option>
-              <option value="duo">Duo — ₦600K</option>
-              <option value="fam">Family — ₦1M</option>
+              <option value="ind">Individual · ₦350K</option>
+              <option value="duo">Duo · ₦600K</option>
+              <option value="fam">Family · ₦1M</option>
             </select>
           </label>
 
           <div class="vcc-result">
-            <div class="vcc-result-label">— Your saving</div>
+            <div class="vcc-result-label">Your saving</div>
             <div class="vcc-result-amount">{{ formatted() }}</div>
             <div class="vcc-result-foot">{{ note() }}</div>
             <a class="v2-btn v2-btn-primary vcc-cta" routerLink="." fragment="tiers">Start saving <span class="arr">→</span></a>
@@ -246,7 +246,7 @@ type TierId = 'ind' | 'duo' | 'fam';
         <li>
           <span class="num">01</span>
           <h3>Choose your tier</h3>
-          <p>Individual, Duo or Family — pick the plan that matches how you travel.</p>
+          <p>Individual, Duo or Family: pick the plan that matches how you travel.</p>
         </li>
         <li>
           <span class="num">02</span>
@@ -276,7 +276,7 @@ type TierId = 'ind' | 'duo' | 'fam';
         <figure class="v2-story v2-story-main">
           <blockquote>
             <span class="quote-mark">"</span>
-            Booked LOS-LHR for the family in December. Prime paid for itself on the first ticket — and we got upgraded support the whole way.
+            Booked LOS-LHR for the family in December. Prime paid for itself on the first ticket, and we got upgraded support the whole way.
           </blockquote>
           <figcaption>
             <span class="who">Adaeze O.</span>
@@ -286,7 +286,7 @@ type TierId = 'ind' | 'duo' | 'fam';
 
         <div class="v2-stories-side">
           <figure class="v2-story">
-            <blockquote>"The member fares alone covered the Duo plan by my second trip — my wife uses it too."</blockquote>
+            <blockquote>"The member fares alone covered the Duo plan by my second trip, and my wife uses it too."</blockquote>
             <figcaption>
               <span class="who">Kunle B.</span>
               <span class="where">Duo member · Houston</span>
@@ -454,13 +454,13 @@ export class Home implements AfterViewInit, OnDestroy {
       return `Prime ${this.labels[this.tier()]} pays back in your first ${tripsToPayback === 1 ? 'trip' : tripsToPayback + ' trips'}.`;
     }
     const shortfall = fee - gross;
-    return `You're ${this.fmt.format(Math.round(shortfall))} short of breaking even — add another trip or try a smaller tier.`;
+    return `You're ${this.fmt.format(Math.round(shortfall))} short of breaking even. Add another trip or try a smaller tier.`;
   });
 
   faqs = [
-    { q: 'How does Prime work?', a: "Pay your annual membership once and member-only pricing applies automatically at checkout on eligible flights, hotels and packages — for every registered traveller on your tier." },
+    { q: 'How does Prime work?', a: "Pay your annual membership once and member-only pricing applies automatically at checkout on eligible flights, hotels and packages, for every registered traveller on your tier." },
     { q: 'Can I upgrade my tier?', a: "Yes. You can upgrade at any time and we'll prorate the difference against your remaining membership period." },
-    { q: 'Who counts as a family member?', a: "Family covers up to four registered travellers in one household. They don't all need to travel together — each can book independently using Prime pricing." },
+    { q: 'Who counts as a family member?', a: "Family covers up to four registered travellers in one household. They don't all need to travel together; each can book independently using Prime pricing." },
     { q: 'Is my membership refundable?', a: 'Memberships are non-refundable once activated, but you can downgrade or cancel auto-renewal any time before your renewal date.' },
     { q: 'How do I add or change my registered travellers?', a: 'Manage registered travellers from your Prime dashboard. You can swap a traveller once per membership year at no charge.' },
   ];

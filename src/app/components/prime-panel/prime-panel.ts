@@ -68,13 +68,6 @@ type TravellerMode = 'new' | 'edit' | 'add-existing';
         </div>
       </div>
 
-      @if (pendingTierInfo(); as pt) {
-        <div class="pp-notice pp-notice-info">
-          Scheduled: your plan switches to <strong>{{ pt.name }}</strong> on {{ formatDate(user()?.renewsOn) }}.
-          <button type="button" class="pp-btn pp-btn-outline pp-btn-sm" (click)="cancelPending()">Cancel change</button>
-        </div>
-      }
-
       @if (!isActive()) {
         <div class="pp-notice">
           Your membership is cancelled and won't renew. You keep Prime benefits until
@@ -152,11 +145,11 @@ type TravellerMode = 'new' | 'edit' | 'add-existing';
     <!-- CHANGE PLAN -->
     <section class="pp-card">
       <span class="pp-eyebrow">Manage subscription</span>
-      <h3 class="pp-h3">Change your plan</h3>
-      <p class="pp-muted">Upgrade instantly for a prorated balance, or switch to take effect on your renewal date.</p>
+      <h3 class="pp-h3">Upgrade your plan</h3>
+      <p class="pp-muted">Move up to a higher plan instantly. You only pay the prorated difference and your new benefits apply right away.</p>
 
       <div class="pp-plans">
-        @for (p of otherTiers(); track p.key) {
+        @for (p of planChoices(); track p.key) {
           <div class="pp-plan" [class.is-current]="p.key === t.key">
             <div class="pp-plan-info">
               <strong>{{ p.name }}</strong>
@@ -164,14 +157,15 @@ type TravellerMode = 'new' | 'edit' | 'add-existing';
             </div>
             @if (p.key === t.key) {
               <span class="pp-pill pp-pill-current">Current plan</span>
-            } @else if (p.price > t.price) {
-              <button type="button" class="pp-btn pp-btn-primary pp-btn-sm" (click)="openUpgrade(p.key)">Upgrade</button>
             } @else {
-              <button type="button" class="pp-btn pp-btn-outline pp-btn-sm" (click)="openSwitch(p.key)">Switch</button>
+              <button type="button" class="pp-btn pp-btn-primary pp-btn-sm" (click)="openUpgrade(p.key)">Upgrade</button>
             }
           </div>
         }
       </div>
+      @if (planChoices().length === 1) {
+        <p class="pp-hint">You're on our highest plan. There's nothing higher to upgrade to.</p>
+      }
     </section>
 
     <!-- DANGER -->
@@ -219,33 +213,6 @@ type TravellerMode = 'new' | 'edit' | 'add-existing';
           <button type="button" class="pp-btn pp-btn-primary" (click)="saveTraveller()">
             {{ travellerMode() === 'edit' ? 'Save changes' : 'Save traveller' }}
           </button>
-        </footer>
-      </div>
-    </div>
-  }
-
-  <!-- SWITCH MODAL -->
-  @if (switchTarget(); as st) {
-    <div class="pp-overlay" (click)="closeSwitch()">
-      <div class="pp-modal" (click)="$event.stopPropagation()" role="dialog" aria-modal="true">
-        <header class="pp-modal-head">
-          <h3>Switch to {{ st.name }}</h3>
-          <button type="button" class="pp-modal-x" (click)="closeSwitch()" aria-label="Close">×</button>
-        </header>
-        <div class="pp-modal-body">
-          <p class="pp-modal-lead">You can switch your plan now and it applies on your renewal date — no charge today.</p>
-          <dl class="pp-switch-meta">
-            <div><dt>New plan</dt><dd>{{ st.name }} · {{ formatMoney(st.price) }}/year</dd></div>
-            <div><dt>Takes effect</dt><dd>{{ formatDate(user()?.renewsOn) }}</dd></div>
-            <div><dt>Charged today</dt><dd>{{ formatMoney(0) }}</dd></div>
-          </dl>
-          @if (st.travellers < memberCount()) {
-            <p class="pp-form-note">Heads up: {{ st.name }} covers {{ st.travellers }} traveller{{ st.travellers === 1 ? '' : 's' }}. Extra travellers will be removed when the change takes effect.</p>
-          }
-        </div>
-        <footer class="pp-modal-foot">
-          <button type="button" class="pp-btn pp-btn-outline" (click)="closeSwitch()">Not now</button>
-          <button type="button" class="pp-btn pp-btn-primary" (click)="confirmSwitch()">Switch on renewal</button>
         </footer>
       </div>
     </div>
@@ -308,17 +275,17 @@ export class PrimePanel {
   memberCount = computed(() => this.members().length);
   isActive = computed(() => this.user()?.status !== 'cancelled');
 
-  pendingTierInfo = computed(() => {
-    const key = this.user()?.pendingTier;
-    return key ? TIERS[key] : null;
-  });
-
   canAddMember = computed(() => {
     const t = this.tier();
     return !!t && this.memberCount() < t.travellers;
   });
 
-  otherTiers = computed(() => TIER_ORDER.map((k) => TIERS[k]));
+  // Current plan plus any higher tiers you can upgrade to (no downgrades/switches).
+  planChoices = computed(() => {
+    const current = this.tier();
+    if (!current) return [];
+    return TIER_ORDER.map((k) => TIERS[k]).filter((p) => p.price >= current.price);
+  });
 
   availableSaved = computed<Member[]>(() => {
     const onPlan = new Set(this.members().map((m) => this.key(m)));
@@ -400,25 +367,6 @@ export class PrimePanel {
     if (index <= 0 || index >= list.length) return;
     if (!confirm(`Remove ${list[index].firstName} ${list[index].lastName} from your Prime plan?`)) return;
     this.auth.setMembers(list.filter((_, i) => i !== index));
-  }
-
-  // ----- Switch (downgrade / lateral, applies at renewal) -----
-  switchKey = signal<TierKey | null>(null);
-  switchTarget = computed(() => (this.switchKey() ? TIERS[this.switchKey()!] : null));
-
-  openSwitch(key: TierKey) {
-    this.switchKey.set(key);
-  }
-  closeSwitch() {
-    this.switchKey.set(null);
-  }
-  confirmSwitch() {
-    const key = this.switchKey();
-    if (key) this.auth.schedulePendingTier(key);
-    this.switchKey.set(null);
-  }
-  cancelPending() {
-    this.auth.cancelPendingTier();
   }
 
   // ----- Upgrade (immediate, prorated, paid now) -----

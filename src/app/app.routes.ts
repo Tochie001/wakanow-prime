@@ -5,18 +5,18 @@ export const routes: Routes = [
   {
     path: '',
     loadComponent: () => import('./pages/home/home').then(m => m.Home),
-    title: 'WakaPrime — Member-only travel savings',
+    title: 'WakaPrime · Member-only travel savings',
   },
   {
     path: 'login',
     loadComponent: () => import('./pages/login/login').then(m => m.LoginPage),
-    title: 'Log in — WakaPrime',
+    title: 'Log in · WakaPrime',
   },
   {
     path: 'profile',
     canActivate: [authGuard],
     loadComponent: () => import('./pages/profile/profile').then(m => m.ProfilePage),
-    title: 'Your account — WakaPrime',
+    title: 'Your account · WakaPrime',
   },
   {
     path: 'join/:tier',

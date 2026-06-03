@@ -477,6 +477,58 @@
   background: #fff;
 }
 
+.pf-field-locked span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.pf-lock {
+  font-size: 11px;
+  opacity: 0.7;
+}
+
+.pf-field-locked input[readonly] {
+  background: #f1f4f8;
+  color: var(--pf-ink-2);
+  border-color: var(--pf-line-2);
+  cursor: not-allowed;
+}
+
+.pf-field-locked input[readonly]:focus {
+  border-color: var(--pf-line-2);
+  background: #f1f4f8;
+}
+
+.pf-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  margin: 16px 0 0;
+  padding: 12px 14px;
+  background: #f5f8fc;
+  border: 1px solid var(--pf-line-2);
+  border-radius: 10px;
+}
+
+.pf-note-icon {
+  flex: 0 0 auto;
+  display: inline-flex;
+  margin-top: 1px;
+  color: var(--pf-ink-3);
+}
+
+.pf-note-text {
+  font-size: 12.5px;
+  color: var(--pf-ink-2);
+  line-height: 1.55;
+}
+
+.pf-note-text strong {
+  color: var(--pf-ink);
+  font-weight: 600;
+}
+
 .pf-placeholder h2 {
   margin-top: 2px;
 }

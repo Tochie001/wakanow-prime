@@ -13,7 +13,7 @@ import { Component } from '@angular/core';
               <path d="M14 4 L18 0 L22 4 L18 8 Z" fill="#FF7A00"/>
             </svg>
           </div>
-          <p class="footer-blurb">Africa's leading online travel company. Flights, hotels, holiday packages — pay in Naira.</p>
+          <p class="footer-blurb">Africa's leading online travel company. Flights, hotels, holiday packages. Pay in Naira.</p>
           <div class="socials" aria-label="Social media">
             <a href="#" aria-label="Facebook"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.6 9.9V15h-2.5v-3h2.5V9.8c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.3.2 2.3.2v2.5h-1.3c-1.3 0-1.7.8-1.7 1.6V12h2.9l-.5 3h-2.4v6.9A10 10 0 0 0 22 12Z"/></svg></a>
             <a href="#" aria-label="X"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18.9 2H22l-7.4 8.5L23 22h-6.8l-5.3-7-6.1 7H1.7l8-9.1L1 2h6.9l4.8 6.4L18.9 2Zm-2.4 18h1.9L7.6 4H5.6l10.9 16Z"/></svg></a>

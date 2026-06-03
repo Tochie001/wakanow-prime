@@ -153,6 +153,35 @@
   line-height: 1.5;
 }
 
+.join-passport-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin: 0 0 24px;
+  padding: 13px 15px;
+  background: #fff6ea;
+  border: 1px solid rgba(247, 148, 29, 0.35);
+  border-radius: 10px;
+}
+
+.join-passport-icon {
+  flex: 0 0 auto;
+  display: inline-flex;
+  margin-top: 1px;
+  color: #e07f00;
+}
+
+.join-passport-text {
+  font-size: 13px;
+  color: #8a4b00;
+  line-height: 1.55;
+}
+
+.join-passport-text strong {
+  color: #6e3c00;
+  font-weight: 700;
+}
+
 /* ----- Cards ----- */
 .join-card {
   background: var(--jp-paper);
