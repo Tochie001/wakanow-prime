@@ -301,6 +301,224 @@
 }
 .jfield input::placeholder { color: var(--jp-ink-3); font-weight: 400; }
 
+.jfield.is-locked input[readonly] {
+  background: #f1f4f8;
+  color: var(--jp-ink-2);
+  border-color: var(--jp-line-2);
+  cursor: not-allowed;
+}
+.jfield.is-locked input[readonly]:focus {
+  border-color: var(--jp-line-2);
+  box-shadow: none;
+}
+
+.join-locked-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  margin: 14px 0 0;
+  padding: 11px 14px;
+  background: #f5f8fc;
+  border: 1px solid var(--jp-line-2);
+  border-radius: 10px;
+}
+.join-locked-icon {
+  flex: 0 0 auto;
+  display: inline-flex;
+  margin-top: 1px;
+  color: var(--jp-ink-3);
+}
+.join-locked-note span:last-child {
+  font-size: 12.5px;
+  color: var(--jp-ink-2);
+  line-height: 1.55;
+}
+
+/* ----- Email verification ----- */
+.join-verify-wrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.join-verify-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 5px 11px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+.join-verify-badge.is-verified {
+  background: #e3f6ea;
+  color: #1c7a43;
+}
+
+.join-verify-badge.is-unverified {
+  background: #fdecec;
+  color: #b03030;
+}
+
+.join-verify-btn {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: #fff;
+  background: var(--jp-orange);
+  border: none;
+  border-radius: 8px;
+  padding: 6px 13px;
+  cursor: pointer;
+}
+
+.join-verify-btn:hover {
+  background: #e07f00;
+}
+
+.join-verify-link {
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  font-weight: 700;
+  color: var(--jp-orange);
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.join-verify-hint {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  margin: 0 0 16px;
+  padding: 12px 14px;
+  background: #fff6ea;
+  border: 1px solid rgba(247, 148, 29, 0.35);
+  border-radius: 10px;
+  font-size: 13px;
+  color: #8a4b00;
+  line-height: 1.55;
+}
+
+.join-verify-hint .join-locked-icon {
+  color: #e07f00;
+}
+
+.join-verify-hint .join-verify-link {
+  color: #8a4b00;
+}
+
+/* OTP modal */
+.join-otp-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(11, 31, 68, 0.5);
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  z-index: 200;
+}
+
+.join-otp-modal {
+  width: 100%;
+  max-width: 420px;
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 30px 70px rgba(11, 31, 68, 0.3);
+  overflow: hidden;
+}
+
+.join-otp-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 22px;
+  border-bottom: 1px solid var(--jp-line-2);
+}
+
+.join-otp-head h3 {
+  margin: 0;
+  font-size: 18px;
+  color: var(--jp-ink);
+}
+
+.join-otp-x {
+  background: none;
+  border: none;
+  font-size: 24px;
+  line-height: 1;
+  color: var(--jp-ink-3);
+  cursor: pointer;
+}
+
+.join-otp-body {
+  padding: 20px 22px;
+}
+
+.join-otp-lead {
+  margin: 0 0 12px;
+  font-size: 14px;
+  color: var(--jp-ink-2);
+  line-height: 1.55;
+}
+
+.join-otp-demo {
+  margin: 0 0 16px;
+  font-size: 12.5px;
+  color: var(--jp-ink-3);
+  background: #f5f8fc;
+  border: 1px dashed var(--jp-line-2);
+  border-radius: 8px;
+  padding: 8px 12px;
+}
+
+.join-otp-demo strong {
+  color: var(--jp-ink);
+  letter-spacing: 0.18em;
+}
+
+.join-otp-input {
+  width: 100%;
+  font-family: var(--jp-body);
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: 0.4em;
+  text-align: center;
+  padding: 14px;
+  border: 1px solid var(--jp-line);
+  border-radius: 12px;
+  color: var(--jp-ink);
+}
+
+.join-otp-input:focus {
+  outline: none;
+  border-color: var(--jp-orange);
+  box-shadow: 0 0 0 3px rgba(247, 148, 29, 0.15);
+}
+
+.join-otp-error {
+  margin: 10px 0 0;
+  font-size: 13px;
+  color: #b03030;
+}
+
+.join-otp-resend {
+  margin: 14px 0 0;
+  font-size: 13px;
+  color: var(--jp-ink-2);
+}
+
+.join-otp-foot {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 16px 22px;
+  border-top: 1px solid var(--jp-line-2);
+  background: #fbfcfe;
+}
+
 /* ----- Payment method header ----- */
 .join-pay-head {
   display: flex;

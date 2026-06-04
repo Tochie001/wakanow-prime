@@ -17,7 +17,7 @@ import { initials } from '../../data/membership';
         </a>
 
         <nav class="primary-nav" aria-label="Primary" [class.is-open]="menuOpen()" [style.display]="menuOpen() ? 'flex' : ''">
-          <a href="#">Flights</a>
+          <a routerLink="/flights">Flights</a>
           <a href="#">Hotels</a>
           <a href="#">Packages</a>
           <a href="#">Visa</a>

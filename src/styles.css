@@ -238,7 +238,7 @@ button { font-family: inherit; cursor: pointer; border: 0; background: none; col
   white-space: nowrap;
   z-index: 1;
 }
-.dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--blue); margin-left: auto; }
+.dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--blue); }
 
 /* SAVE 20% badge — subtle in-and-out breathing pulse */
 @keyframes badge-buzz {

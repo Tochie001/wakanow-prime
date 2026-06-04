@@ -19,6 +19,16 @@ export const routes: Routes = [
     title: 'Your account · WakaPrime',
   },
   {
+    path: 'flights',
+    loadComponent: () => import('./pages/flights/results/results').then(m => m.FlightResultsPage),
+    title: 'Flight results — WakaPrime',
+  },
+  {
+    path: 'flights/booking',
+    loadComponent: () => import('./pages/flights/booking/booking').then(m => m.FlightBookingPage),
+    title: 'Your booking — WakaPrime',
+  },
+  {
     path: 'join/:tier',
     loadComponent: () => import('./pages/join/join').then(m => m.JoinPage),
     title: 'Join WakaPrime',

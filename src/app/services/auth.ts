@@ -84,6 +84,28 @@ export class AuthService {
     this.updateUser({ savedTravellers });
   }
 
+  /** Turn the current (logged-in) non-member into an active Prime member on a tier. */
+  subscribe(tier: TierKey): void {
+    const u = this.user();
+    if (!u) return;
+    const memberNo = 'WP-' + Math.floor(1000 + Math.random() * 8999) + ' ' + Math.floor(1000 + Math.random() * 8999);
+    const primary: Member = {
+      firstName: u.firstName, lastName: u.lastName, email: u.email, phone: u.phone,
+      relationship: 'Account owner', isPrimary: true,
+    };
+    this.updateUser({
+      isPrime: true,
+      tier,
+      status: 'active',
+      memberNo,
+      memberSince: isoMonthsFromToday(0),
+      renewsOn: isoMonthsFromToday(12),
+      members: [primary],
+      savedTravellers: u.savedTravellers ?? [primary],
+      pendingTier: undefined,
+    });
+  }
+
   /** Immediate tier change (used by the prorated upgrade flow after payment). */
   changeTier(tier: TierKey): void {
     this.updateUser({ tier, status: 'active', pendingTier: undefined });
